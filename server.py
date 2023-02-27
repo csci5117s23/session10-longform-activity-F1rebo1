@@ -4,7 +4,7 @@ import json
 from urllib.parse import quote_plus, urlencode
 from os import environ as env
 from authlib.integrations.flask_client import OAuth
-from dotenv import find_dotenv, load_dotenv
+# from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ oauth.register(
     server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
 )
 
-@app.route("/home")
+@app.route("/")
 def main_page():
     return render_template("home.html")
 
@@ -36,7 +36,7 @@ def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
     session['uid'] = token['userinfo']['sid']
-    session['email'] = token['userinfo']['email]']
+    session['email'] = token['userinfo']['email']
     session['picture'] = token['userinfo']['picture']
     return redirect("/")
 
